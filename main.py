@@ -258,7 +258,7 @@ def update(dt):
 
     # --- УПРАВЛЕНИЕ КОТОМ ---
     moving = False
-    move_speed = 4.6
+    move_speed = 3.6
     if keyboard.left or keyboard.a:
         cat.x -= move_speed
         cat.facing_right = False
@@ -282,7 +282,7 @@ def update(dt):
         cat.image = f"cat_idle{suffix}"
 
     # --- ФИЗИКА И ГРАВИТАЦИЯ ---
-    cat.vy += 0.54
+    cat.vy += 0.48
     cat.y += cat.vy
     cat.on_ground = False
 
@@ -395,13 +395,13 @@ def take_damage():
 def on_key_down(key):
     global current_music, music_playing, game_state, score, lives, current_level_idx, crystals_found
 
-    # ПРЫЖОК И ДВОЙНОЙ ПРЫЖОК
+    # ПРЫЖОК И ДВОЙНОЙ ПРЫЖОК (плавный, контролируемый)
     if key == keys.SPACE or key == keys.UP or key == keys.W:
         if cat.on_ground:
-            cat.vy = -13.0
+            cat.vy = -11.8
             sounds.jump.play()
         elif cat.can_double_jump:
-            cat.vy = -11.5
+            cat.vy = -10.5
             cat.can_double_jump = False
             sounds.jump.play()
             popups.append({"text": "ДВОЙНОЙ ПРЫЖОК!", "x": cat.x, "y": cat.y - 20, "timer": 20})

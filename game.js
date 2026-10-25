@@ -278,10 +278,10 @@ window.addEventListener('keyup', e => {
 
 function handleJump() {
   if (cat.onGround) {
-    cat.vy = -13.0;
+    cat.vy = -11.8;
     playSound('jump');
   } else if (cat.canDoubleJump) {
-    cat.vy = -11.5;
+    cat.vy = -10.5;
     cat.canDoubleJump = false;
     playSound('jump');
     popups.push({text: 'ДВОЙНОЙ ПРЫЖОК!', x: cat.x, y: cat.y - 20, timer: 20});
@@ -434,9 +434,9 @@ function update() {
     if (hit) bullets.splice(i, 1);
   }
 
-  // Перемещение кота
+  // Перемещение кота (плавный, контролируемый бег)
   let moving = false;
-  const moveSpeed = 4.6;
+  const moveSpeed = 3.6;
   if (keys['ArrowLeft'] || keys['KeyA']) {
     cat.x -= moveSpeed;
     cat.facingRight = false;
@@ -458,8 +458,8 @@ function update() {
     cat.imageName = `cat_idle${suffix}`;
   }
 
-  // Гравитация
-  cat.vy += 0.54;
+  // Мягкая и плавная гравитация
+  cat.vy += 0.48;
   cat.y += cat.vy;
   cat.onGround = false;
 
@@ -718,11 +718,31 @@ function draw() {
   }
 }
 
-// Главный цикл
-function loop() {
-  update();
-  draw();
+// --- ФИКСИРОВАННЫЙ ЦИКЛ 60 FPS (НЕ ЗАВИСИТ ОТ ГЕРЦОВКИ МОНИТОРА 60/120/144/240 Гц) ---
+const TARGET_FPS = 60;
+const STEP = 1000 / TARGET_FPS;
+let lastTime = performance.now();
+let accumulator = 0;
+
+function loop(currentTime) {
   requestAnimationFrame(loop);
+
+  const dt = currentTime - lastTime;
+  lastTime = currentTime;
+
+  // Ограничиваем максимальный скачок времени (если вкладка сворачивалась)
+  accumulator += Math.min(dt, 100);
+
+  // Обновляем физику строго с частотой 60 раз в секунду
+  while (accumulator >= STEP) {
+    update();
+    accumulator -= STEP;
+  }
+
+  draw();
 }
 
-requestAnimationFrame(loop);
+requestAnimationFrame((t) => {
+  lastTime = t;
+  loop(t);
+});
