@@ -278,10 +278,10 @@ window.addEventListener('keyup', e => {
 
 function handleJump() {
   if (cat.onGround) {
-    cat.vy = -11.8;
+    cat.vy = -12.5;
     playSound('jump');
   } else if (cat.canDoubleJump) {
-    cat.vy = -10.5;
+    cat.vy = -11.0;
     cat.canDoubleJump = false;
     playSound('jump');
     popups.push({text: 'ДВОЙНОЙ ПРЫЖОК!', x: cat.x, y: cat.y - 20, timer: 20});
@@ -434,9 +434,9 @@ function update() {
     if (hit) bullets.splice(i, 1);
   }
 
-  // Перемещение кота (плавный, контролируемый бег)
+  // Перемещение кота (как в Python)
   let moving = false;
-  const moveSpeed = 3.6;
+  const moveSpeed = 4.5;
   if (keys['ArrowLeft'] || keys['KeyA']) {
     cat.x -= moveSpeed;
     cat.facingRight = false;
@@ -458,8 +458,8 @@ function update() {
     cat.imageName = `cat_idle${suffix}`;
   }
 
-  // Мягкая и плавная гравитация
-  cat.vy += 0.48;
+  // Гравитация (как в Python)
+  cat.vy += 0.55;
   cat.y += cat.vy;
   cat.onGround = false;
 
@@ -718,9 +718,9 @@ function draw() {
   }
 }
 
-// --- ФИКСИРОВАННЫЙ ЦИКЛ 60 FPS (НЕ ЗАВИСИТ ОТ ГЕРЦОВКИ МОНИТОРА 60/120/144/240 Гц) ---
-const TARGET_FPS = 60;
-const STEP = 1000 / TARGET_FPS;
+// --- ЖЕСТКИЙ ЛОК НА 30 FPS (КАК В PYTHON) ---
+const TARGET_FPS = 30;
+const STEP = 1000 / TARGET_FPS; // 33.33 мс на кадр
 let lastTime = performance.now();
 let accumulator = 0;
 
@@ -730,10 +730,9 @@ function loop(currentTime) {
   const dt = currentTime - lastTime;
   lastTime = currentTime;
 
-  // Ограничиваем максимальный скачок времени (если вкладка сворачивалась)
   accumulator += Math.min(dt, 100);
 
-  // Обновляем физику строго с частотой 60 раз в секунду
+  // Ровно 30 тиков в секунду, без ускорения
   while (accumulator >= STEP) {
     update();
     accumulator -= STEP;
