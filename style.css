@@ -1,0 +1,287 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: radial-gradient(circle at center, #181530 0%, #0a0815 100%);
+  color: #fff;
+  font-family: 'Rubik', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  overflow-x: hidden;
+  user-select: none;
+}
+
+.arcade-cabinet {
+  width: 100%;
+  max-width: 860px;
+  background: rgba(22, 19, 42, 0.85);
+  border: 2px solid #584488;
+  border-radius: 18px;
+  padding: 14px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.7), 0 0 30px rgba(110, 60, 240, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Шапка */
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(120, 90, 180, 0.3);
+}
+
+.game-title {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 1rem;
+  color: #ffe600;
+  text-shadow: 0 0 10px rgba(255, 230, 0, 0.5);
+  margin-bottom: 4px;
+}
+
+.game-subtitle {
+  font-size: 0.8rem;
+  color: #9da0c2;
+}
+
+.header-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.pill-btn {
+  background: #2a2448;
+  border: 1px solid #6b559b;
+  color: #00fff0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.pill-btn:hover, .pill-btn:active {
+  background: #443774;
+  border-color: #00fff0;
+  box-shadow: 0 0 10px rgba(0, 255, 240, 0.4);
+}
+
+/* Canvas контейнер */
+.canvas-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: 70vh;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #000;
+  border: 2px solid #3d2f66;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#gameCanvas {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  display: block;
+}
+
+/* Оверлей старта */
+.start-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 8, 20, 0.88);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 10;
+  transition: opacity 0.3s;
+}
+
+.start-overlay.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.overlay-box {
+  background: #1b1634;
+  border: 2px solid #7c58c2;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  max-width: 480px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+.overlay-box h2 {
+  font-family: 'Press Start 2P', monospace;
+  font-size: 1.1rem;
+  color: #ffe600;
+  margin-bottom: 12px;
+}
+
+.overlay-box p {
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #cfd2f0;
+  margin-bottom: 16px;
+}
+
+.controls-hint {
+  background: #251e45;
+  border: 1px dashed #6b559b;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 0.78rem;
+  color: #00fff0;
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  text-align: left;
+}
+
+.play-btn {
+  background: linear-gradient(135deg, #00d2ff 0%, #00f076 100%);
+  border: none;
+  color: #04101e;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.95rem;
+  padding: 14px 28px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0, 240, 118, 0.4);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.play-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(0, 240, 118, 0.6);
+}
+
+/* Мобильные виртуальные кнопки */
+.touch-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 0;
+  gap: 16px;
+}
+
+.dpad-zone, .action-zone {
+  display: flex;
+  gap: 12px;
+}
+
+.touch-btn {
+  background: #251e45;
+  border: 2px solid #5a448c;
+  color: #fff;
+  border-radius: 14px;
+  font-weight: 800;
+  touch-action: manipulation;
+  cursor: pointer;
+  transition: background 0.1s, transform 0.1s;
+}
+
+.dpad-btn {
+  width: 68px;
+  height: 60px;
+  font-size: 1.6rem;
+  color: #00fff0;
+}
+
+.action-btn {
+  min-width: 100px;
+  height: 60px;
+  font-size: 0.85rem;
+  padding: 0 14px;
+}
+
+.jump-btn {
+  background: #1c3d2b;
+  border-color: #00f076;
+  color: #85ffbe;
+}
+
+.fire-btn {
+  background: #3d1c24;
+  border-color: #ff3366;
+  color: #ff99aa;
+}
+
+.touch-btn:active, .touch-btn.pressed {
+  background: #4e3c7a;
+  transform: scale(0.92);
+}
+
+.jump-btn:active, .jump-btn.pressed {
+  background: #00f076;
+  color: #000;
+}
+
+.fire-btn:active, .fire-btn.pressed {
+  background: #ff3366;
+  color: #fff;
+}
+
+/* Футер */
+.game-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: #7b7e9e;
+  padding-top: 6px;
+  border-top: 1px solid rgba(120, 90, 180, 0.2);
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.credit {
+  color: #00fff0;
+}
+
+@media (max-width: 600px) {
+  .game-title {
+    font-size: 0.85rem;
+  }
+  .dpad-btn {
+    width: 58px;
+    height: 54px;
+    font-size: 1.3rem;
+  }
+  .action-btn {
+    min-width: 82px;
+    height: 54px;
+    font-size: 0.72rem;
+    padding: 0 8px;
+  }
+  .arcade-cabinet {
+    padding: 8px;
+    border-radius: 12px;
+  }
+}

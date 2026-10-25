@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Хранитель Искры — Кибер-Кот Спарк</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Rubik:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="arcade-cabinet">
+    <!-- Верхняя шапка игры -->
+    <header class="game-header">
+      <div class="header-left">
+        <h1 class="game-title">⚡ ХРАНИТЕЛЬ ИСКРЫ 🐾</h1>
+        <p class="game-subtitle">Кибер-Кот Спарк — 2D Ретро Платформер</p>
+      </div>
+      <div class="header-controls">
+        <button id="btnMusic" class="pill-btn" title="Переключить трек">🎵 <span id="musicLabel">Трек 1</span></button>
+        <button id="btnMute" class="pill-btn" title="Вкл/Выкл звук">🔊</button>
+        <button id="btnRestart" class="pill-btn" title="Рестарт">🔄 R</button>
+        <button id="btnFullscreen" class="pill-btn" title="Во весь экран">⛶</button>
+      </div>
+    </header>
+
+    <!-- Игровой экран (Canvas) -->
+    <div class="canvas-wrapper" id="canvasContainer">
+      <canvas id="gameCanvas" width="800" height="600"></canvas>
+      <div id="startOverlay" class="start-overlay">
+        <div class="overlay-box">
+          <h2>ХРАНИТЕЛЬ ИСКРЫ</h2>
+          <p>В волшебном мире угасло Великое Древо. Ты — отважный робо-кот Спарк, несущий последнюю искру света!</p>
+          <div class="controls-hint">
+            <div><strong>ПК:</strong> Стрелки / WASD — Бег | Пробел (x2) — Двойной прыжок | F / J — Выстрел</div>
+            <div><strong>Телефон:</strong> Кнопки управления на экране снизу</div>
+          </div>
+          <button id="btnPlay" class="play-btn">ИГРАТЬ 🚀</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Мобильный виртуальный геймпад -->
+    <div class="touch-controls" id="touchControls">
+      <!-- Крестовина влево/вправо -->
+      <div class="dpad-zone">
+        <button id="touchLeft" class="touch-btn dpad-btn" aria-label="Влево">◀</button>
+        <button id="touchRight" class="touch-btn dpad-btn" aria-label="Вправо">▶</button>
+      </div>
+
+      <!-- Кнопки действий -->
+      <div class="action-zone">
+        <button id="touchFire" class="touch-btn action-btn fire-btn" aria-label="Выстрел">
+          <span>⚡ ВЫСТРЕЛ</span>
+        </button>
+        <button id="touchJump" class="touch-btn action-btn jump-btn" aria-label="Прыжок">
+          <span>🦘 ПРЫЖОК</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Футер с информацией -->
+    <footer class="game-footer">
+      <span>Управление: <strong>A / D</strong> — бег, <strong>Пробел x2</strong> — двойной прыжок, <strong>F</strong> — стрельба, <strong>1-3</strong> — треки</span>
+      <span class="credit">Создано с любовью для Kodland & GitHub Pages</span>
+    </footer>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
